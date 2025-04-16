@@ -12,9 +12,15 @@ const app = express()
 app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(express.json());
 
-app.post('/questions/', async (req, res) => {
-  // TODO: finish implementation
-})
+app.get('/questions/', async (req, res) => {
+  try {
+    const questions = await Question.find({});
+    res.json(questions);
+  } catch(err) {
+    console.error('Error fetching questions:', err);
+    res.status(500).json({ error: 'Failed to fetch questions' });
+  }
+});
 
 app.post('/questions/:id/answers/', async (req, res) => {
   const update = { "$push": { answers: req.body.answer } }
@@ -26,9 +32,19 @@ app.post('/questions/:id/answers/', async (req, res) => {
   }
 })
 
-app.get('/questions/', async (req, res) => {
-  // TODO: finish implementation
-})
+app.post('/questions/', async (req, res) => {
+  try {
+    const newQuestion = new Question({
+      question: req.body.question,
+      answers: []
+    });
+    const savedQuestion = await newQuestion.save();
+    res.json(savedQuestion);
+  } catch(err) {
+    console.error('Error creating question:', err);
+    res.status(500).json({ error: 'Failed to create question' });
+  }
+});
 
 const port = process.env.PORT ?? 3000
 app.listen(port, () => {console.log(`Server is listening on ${port}`)})
