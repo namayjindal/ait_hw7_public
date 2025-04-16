@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('modal-answer');
     document.getElementById('question-id').value = questionId;
     modal.classList.add('open');
-    // Alternative: modal.showModal();
   }
 
   // Function to create a new question
@@ -180,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Close the modal
       const modal = document.getElementById('modal-answer');
       modal.classList.remove('open');
-      // Alternative: modal.close();
       
       // Clear the input field
       document.getElementById('answer-text').value = '';
